@@ -36,7 +36,7 @@ Student scores are converted to **grade points** based on the Nigerian scale:
 * A grade (A, B, C, D, E, F)
 * A grade point (usually: A = 5, B = 4, C = 3, D = 2, E = 1, F = 0)
 * A credit unit (CU) (the course weight, e.g. 2, 3, or 4 units) 
-   The grade point of each course multiply by the credit unit for the individual course, it is then summed and divided by the total credit unit for the semester.
+# The grade point of each course multiply by the credit unit for the individual course, it is then summed and divided by the total credit unit for the semester.
 
 **CGPA** is the cumulative average across all semesters.
-  CGPA is the average of all your GPAs from all semesters up to your current level, The total grade point for all semester divided by the total credit unit for all semester
+# CGPA is the average of all your GPAs from all semesters up to your current level, The total grade point for all semester divided by the total credit unit for all semester
