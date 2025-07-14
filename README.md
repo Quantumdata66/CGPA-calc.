@@ -1,6 +1,6 @@
 # 🎓 University CGPA Calculator (Mechatronics Dept)
 
-This is a simple **Python-based GPA & CGPA calculator** designed to help a university exam officer manage student results for up to **10 semesters**, using a real Nigerian university grading system.
+This is a simple **Python-based GPA & CGPA calculator** designed to help a university exam officer manage student results for up to **10 semesters** for an engineering course (Mechatronics engineering), using a real Nigerian university grading system.
 
 
 
