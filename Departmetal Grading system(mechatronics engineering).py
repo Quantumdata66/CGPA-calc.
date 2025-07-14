@@ -1,4 +1,5 @@
 import json
+import os
 
 def display_menu():
     print(f"Welcome to mechatronics departmental portal !")
@@ -150,7 +151,8 @@ Course_list = {
 
 ###
 def add_students(students):
-    student_id = input("Enter student ID: ")
+    student_id = (input("Enter student ID: "))
+
     if student_id in students:
         print("Student ID already exist")
     else:
@@ -169,7 +171,7 @@ def view_all_students(students):
     for student_id, data in students.items():
         name = data["name"]
         semester_count = len (data["semesters"])
-        print(f"ID: {student_id} | Name: {name} | Semesters Recorded: {semester_count}")
+        print(f"ID: {student_id} | Name: {name} | Semesters Recorded: {semester_count} | CGPA: {data.get('cgpa', 'N/A')}")
 
 
 def display_students(students):
@@ -193,7 +195,6 @@ def input_semester_grades(students):
         print("Student Not Found.")
         return
     
-
     try:
         semester = int(input("Enter semester (1 - 10):"))
         if semester < 1 or semester > 10:
@@ -203,9 +204,13 @@ def input_semester_grades(students):
         print("Invalid semester")
         return
     
+    if semester not in Course_list:
+        print("Invalid semester. No courses available for this semester.")
+        return
+
     students[student_id]["semesters"][semester] = {}
 
-    for course, unit in Course_list.items():
+    for course, unit in Course_list[semester].items():
         while True:
             try:
                 score = float (input(f"Enter score for {course} (CU:{unit}): "))
@@ -226,13 +231,20 @@ def save_students(students, filename= "students_data.json"):
     print("Student data saved successfully.")
 
 def load_students(filename="students_data.json"):
+    if not os.path.exists(filename):
+        print("No saved data found. Starting fresh.")
+        return {}
+
+    if os.stat(filename).st_size == 0:
+        print("Data file exists but is empty. Starting fresh.")
+        return {}
     try:
         with open(filename, "r") as f:
             students = json.load(f)
         print("student data successfully saved.")
         return students
-    except FileNotFoundError:
-        print("Data not found.")
+    except json.JSONDecodeError:
+        print("Data not found. Starting fresh.")
         return{}
     
 
@@ -301,14 +313,17 @@ def calculate_gpa(students):
       if semester not in students[student_id]["semesters"]:
         print("No grades recorded for this semester yet.")
         return
+      
+      if int(semester) not in Course_list:
+          print("Invalid semester. No courses available for this semester.")
+          return
 
       courses = students[student_id]["semesters"][semester]
-
       total_points = 0
       total_units = 0
 
       for course, score in courses.items():
-          unit = Course_list[course]
+          unit = Course_list[int(semester)][course]
           grade_point = get_grade_point(score)
           total_points += grade_point * unit
           total_units += unit
@@ -340,7 +355,7 @@ def calculate_cgpa(students):
         if semester in student["semesters"]:
             Course_list = student["semesters"][semester]
             for course, score in Course_list.items():
-                unit = Course_list(course)
+                unit = Course_list[course]
                 grade_point = get_grade_point(score)
                 total_points = total_points + grade_point * unit
                 total_units = total_units + unit
